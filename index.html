@@ -1,254 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WinGo Multi-Timer Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f8f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 400px;
-            background: #fff;
-            min-height: 100vh;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        .header {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .wallet-card {
-            background: #fff3e0;
-            margin: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #ffe0b2;
-        }
-        .wallet-card h3 { margin: 0; color: #d35400; }
-        .wallet-card p { font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WinGo 30S - Tresa lottery Clone</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-        /* Timer Tabs */
-        .tabs {
-            display: flex;
-            justify-content: space-around;
-            background: #f0f0f0;
-            margin: 0 15px 15px 15px;
-            border-radius: 10px;
-            padding: 5px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 8px 5px;
-            border: none;
-            background: transparent;
-            font-size: 12px;
-            font-weight: bold;
-            color: #666;
-            cursor: pointer;
-            border-radius: 8px;
-        }
-        .tab-btn.active {
-            background: #d35400;
-            color: white;
-        }
+    body {
+      background-color: #0f1223;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+    }
 
-        .timer-section {
-            background: #fdf2e9;
-            margin: 0 15px 15px 15px;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .timer-box {
-            font-size: 20px;
-            font-weight: bold;
-            background: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #d35400;
-            color: #d35400;
-        }
-        .betting-section { padding: 0 15px; }
-        .color-buttons { display: flex; gap: 10px; margin-bottom: 15px; }
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .btn-green { background-color: #27ae60; }
-        .btn-violet { background-color: #8e44ad; }
-        .btn-red { background-color: #c0392b; }
-        
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .num-btn {
-            padding: 12px 0;
-            border: 1px solid #ddd;
-            background: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .result-box {
-            margin: 15px;
-            padding: 15px;
-            background: #e8f8f5;
-            border: 1px solid #a3e4d7;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-    </style>
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background-color: #171a2f;
+      min-height: 100vh;
+      padding: 15px;
+      padding-bottom: 30px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+    }
+
+    .balance-card {
+      background: linear-gradient(135deg, #2b3054, #1c203b);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .balance-title {
+      font-size: 12px;
+      color: #9093a8;
+    }
+
+    .balance-amount {
+      font-size: 22px;
+      font-weight: bold;
+      color: #4cd964;
+      margin-top: 5px;
+    }
+
+    .btn-deposit {
+      background: linear-gradient(90deg, #ff9900, #ff5500);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Timer Section */
+    .timer-card {
+      background-color: #222743;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .period-title {
+      font-size: 12px;
+      color: #9093a8;
+    }
+
+    .period-num {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .time-box {
+      display: flex;
+      gap: 5px;
+    }
+
+    .time-digit {
+      background: #171a2f;
+      color: #ff4d4d;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid #333857;
+    }
+
+    /* Color Selection Buttons */
+    .color-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .btn-color {
+      flex: 1;
+      padding: 12px 0;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-green { background-color: #40ad52; }
+    .btn-violet { background-color: #b659fe; }
+    .btn-red { background-color: #fb4e4e; }
+
+    /* Number Grid */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      background-color: #222743;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .num-btn {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2b3054;
+    }
+
+    .num-0 { background: linear-gradient(135deg, #b659fe 50%, #fb4e4e 50%); }
+    .num-5 { background: linear-gradient(135deg, #b659fe 50%, #40ad52 50%); }
+    .num-green { background-color: #40ad52; }
+    .num-red { background-color: #fb4e4e; }
+
+    /* Big / Small */
+    .size-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-size {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-big { background-color: #ffa82e; }
+    .btn-small { background-color: #6da7ff; }
+
+    /* History Table */
+    .history-tabs {
+      display: flex;
+      border-bottom: 1px solid #333857;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      color: #9093a8;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: #ffa82e;
+      border-bottom: 2px solid #ffa82e;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .table th, .table td {
+      padding: 10px 5px;
+      text-align: center;
+      border-bottom: 1px solid #222743;
+    }
+
+    .table th {
+      color: #9093a8;
+    }
+
+    /* Modal / Bet Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      background-color: #222743;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+      z-index: 100;
+    }
+
+    .modal-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .multiplier-opts {
+      display: flex;
+      gap: 5px;
+      margin: 15px 0;
+    }
+
+    .mult-btn {
+      flex: 1;
+      padding: 8px;
+      background-color: #171a2f;
+      border: 1px solid #333857;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .mult-btn.active {
+      background-color: #ffa82e;
+      border-color: #ffa82e;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background-color: #333857;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-confirm {
+      flex: 2;
+      padding: 12px;
+      background-color: #ffa82e;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">Big Mumbai - WinGo</div>
-
-    <div class="wallet-card">
-        <h3>Wallet Balance</h3>
-        <p>₹<span id="balance">1000.00</span></p>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h2>WinGo 30S</h2>
+      <span style="color: #9093a8;">Help</span>
     </div>
 
-    <!-- Mode Selector Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="selectMode(30, this)">WinGo 30Sec</button>
-        <button class="tab-btn" onclick="selectMode(60, this)">WinGo 1 Min</button>
-        <button class="tab-btn" onclick="selectMode(180, this)">WinGo 3 Min</button>
-        <button class="tab-btn" onclick="selectMode(300, this)">WinGo 5 Min</button>
+    <!-- Balance Section -->
+    <div class="balance-card">
+      <div>
+        <div class="balance-title">Balance</div>
+        <div class="balance-amount">₹ 1,250.00</div>
+      </div>
+      <button class="btn-deposit">Deposit</button>
     </div>
 
-    <div class="timer-section">
-        <div>
-            <div style="font-size: 12px; color: #777;" id="mode-title">WinGo 30Sec</div>
-            <div style="font-weight: bold;">Time remaining</div>
-        </div>
-        <div class="timer-box" id="timer">00:30</div>
+    <!-- Timer & Period -->
+    <div class="timer-card">
+      <div>
+        <div class="period-title">Period</div>
+        <div class="period-num">20261012001</div>
+      </div>
+      <div class="time-box">
+        <div class="time-digit" id="min">00</div>
+        <div style="align-self: center;">:</div>
+        <div class="time-digit" id="sec">30</div>
+      </div>
     </div>
 
-    <div class="betting-section">
-        <div class="color-buttons">
-            <button class="btn btn-green" onclick="placeBet('Green', 2)">Green</button>
-            <button class="btn btn-violet" onclick="placeBet('Violet', 4.5)">Violet</button>
-            <button class="btn btn-red" onclick="placeBet('Red', 2)">Red</button>
-        </div>
-
-        <div class="number-grid">
-            <button class="num-btn" onclick="placeBet('Number 0', 9)">0</button>
-            <button class="num-btn" onclick="placeBet('Number 1', 9)">1</button>
-            <button class="num-btn" onclick="placeBet('Number 2', 9)">2</button>
-            <button class="num-btn" onclick="placeBet('Number 3', 9)">3</button>
-            <button class="num-btn" onclick="placeBet('Number 4', 9)">4</button>
-            <button class="num-btn" onclick="placeBet('Number 5', 9)">5</button>
-            <button class="num-btn" onclick="placeBet('Number 6', 9)">6</button>
-            <button class="num-btn" onclick="placeBet('Number 7', 9)">7</button>
-            <button class="num-btn" onclick="placeBet('Number 8', 9)">8</button>
-            <button class="num-btn" onclick="placeBet('Number 9', 9)">9</button>
-        </div>
+    <!-- Color Buttons -->
+    <div class="color-buttons">
+      <button class="btn-color btn-green" onclick="openBet('Green')">Green</button>
+      <button class="btn-color btn-violet" onclick="openBet('Violet')">Violet</button>
+      <button class="btn-color btn-red" onclick="openBet('Red')">Red</button>
     </div>
 
-    <div class="result-box" id="result-text">
-        Option select karke bet lagayein! (Fixed Bet: ₹10)
+    <!-- Number Grid -->
+    <div class="number-grid">
+      <button class="num-btn num-0" onclick="openBet('0')">0</button>
+      <button class="num-btn num-green" onclick="openBet('1')">1</button>
+      <button class="num-btn num-red" onclick="openBet('2')">2</button>
+      <button class="num-btn num-green" onclick="openBet('3')">3</button>
+      <button class="num-btn num-red" onclick="openBet('4')">4</button>
+      <button class="num-btn num-5" onclick="openBet('5')">5</button>
+      <button class="num-btn num-red" onclick="openBet('6')">6</button>
+      <button class="num-btn num-green" onclick="openBet('7')">7</button>
+      <button class="num-btn num-red" onclick="openBet('8')">8</button>
+      <button class="num-btn num-green" onclick="openBet('9')">9</button>
     </div>
-</div>
 
-<script>
-    let balance = 1000.00;
-    let selectedDuration = 30; // Default 30 Sec
+    <!-- Big Small Buttons -->
+    <div class="size-buttons">
+      <button class="btn-size btn-big" onclick="openBet('Big')">Big</button>
+      <button class="btn-size btn-small" onclick="openBet('Small')">Small</button>
+    </div>
+
+    <!-- History / Chart Tabs -->
+    <div class="history-tabs">
+      <div class="tab active">Game History</div>
+      <div class="tab">Chart</div>
+      <div class="tab">My History</div>
+    </div>
+
+    <!-- History Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Period</th>
+          <th>Number</th>
+          <th>Big/Small</th>
+          <th>Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>20261012000</td>
+          <td style="color: #40ad52; font-weight: bold;">7</td>
+          <td>Big</td>
+          <td><span style="color: #40ad52;">Green</span></td>
+        </tr>
+        <tr>
+          <td>20261011999</td>
+          <td style="color: #fb4e4e; font-weight: bold;">2</td>
+          <td>Small</td>
+          <td><span style="color: #fb4e4e;">Red</span></td>
+        </tr>
+        <tr>
+          <td>20261011998</td>
+          <td style="color: #b659fe; font-weight: bold;">0</td>
+          <td>Small</td>
+          <td><span style="color: #b659fe;">Violet Red</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Betting Modal -->
+  <div class="modal" id="betModal">
+    <div class="modal-header">Select <span id="selectedItem" style="color: #ffa82e;">-</span></div>
+    <div>Balance: ₹10</div>
+    <div class="multiplier-opts">
+      <button class="mult-btn active">X1</button>
+      <button class="mult-btn">X5</button>
+      <button class="mult-btn">X10</button>
+      <button class="mult-btn">X20</button>
+      <button class="mult-btn">X50</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeBet()">Cancel</button>
+      <button class="btn-confirm" onclick="closeBet()">Presume Betting</button>
+    </div>
+  </div>
+
+  <script>
+    // 30 Seconds Timer
     let timeLeft = 30;
-    let currentBet = null;
-    const betAmount = 10;
+    const secElement = document.getElementById('sec');
 
-    function updateWallet() {
-        document.getElementById('balance').innerText = balance.toFixed(2);
-    }
-
-    function selectMode(seconds, btn) {
-        selectedDuration = seconds;
-        timeLeft = seconds;
-        
-        // Active tab highlight update
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // Mode title update
-        let title = "WinGo " + (seconds < 60 ? seconds + "Sec" : (seconds/60) + " Min");
-        document.getElementById('mode-title').innerText = title;
-        
-        updateTimerDisplay();
-        currentBet = null;
-        document.getElementById('result-text').innerText = `${title} mode selected. Bet lagayein!`;
-    }
-
-    function placeBet(option, multiplier) {
-        if (balance < betAmount) {
-            alert("Wallet me balance kam hai!");
-            return;
-        }
-        balance -= betAmount;
-        updateWallet();
-        currentBet = { option, multiplier };
-        document.getElementById('result-text').innerText = `Aapne '${option}' par ₹10 ki bet lagai hai. Result ka wait karein...`;
-    }
-
-    function updateTimerDisplay() {
-        let mins = Math.floor(timeLeft / 60);
-        let secs = timeLeft % 60;
-        let formattedMins = mins < 10 ? '0' + mins : mins;
-        let formattedSecs = secs < 10 ? '0' + secs : secs;
-        document.getElementById('timer').innerText = `${formattedMins}:${formattedSecs}`;
-    }
-
-    // Main Timer Loop
     setInterval(() => {
+      if (timeLeft <= 0) {
+        timeLeft = 30;
+      } else {
         timeLeft--;
-        if (timeLeft < 0) {
-            timeLeft = selectedDuration;
-            
-            if (currentBet) {
-                let win = Math.random() < 0.4; // 40% win chance
-                if (win) {
-                    let winnings = betAmount * currentBet.multiplier;
-                    balance += winnings;
-                    document.getElementById('result-text').innerText = `Badhai ho! Aap jeet gaye +₹${winnings.toFixed(2)}`;
-                } else {
-                    document.getElementById('result-text').innerText = `Afsos! Aap haar gaye. (Selected: ${currentBet.option})`;
-                }
-                updateWallet();
-                currentBet = null;
-            } else {
-                document.getElementById('result-text').innerText = "Round finish! Koi bet nahi lagi thi.";
-            }
-        }
-        updateTimerDisplay();
+      }
+      secElement.innerText = timeLeft < 10 ? '0' + timeLeft : timeLeft;
     }, 1000);
-</script>
 
+    // Modal Handlers
+    function openBet(item) {
+      document.getElementById('selectedItem').innerText = item;
+      document.getElementById('betModal').style.display = 'block';
+    }
+
+    function closeBet() {
+      document.getElementById('betModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
