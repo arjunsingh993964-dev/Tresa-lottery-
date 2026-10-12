@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WinGo Multi-Timer Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f8f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .wallet-card {
+            background: #fff3e0;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #ffe0b2;
+        }
+        .wallet-card h3 { margin: 0; color: #d35400; }
+        .wallet-card p { font-size: 22px; font-weight: bold; margin: 5px 0 0 0; }
+
+        /* Timer Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background: #f0f0f0;
+            margin: 0 15px 15px 15px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 8px 5px;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .tab-btn.active {
+            background: #d35400;
+            color: white;
+        }
+
+        .timer-section {
+            background: #fdf2e9;
+            margin: 0 15px 15px 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .timer-box {
+            font-size: 20px;
+            font-weight: bold;
+            background: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #d35400;
+            color: #d35400;
+        }
+        .betting-section { padding: 0 15px; }
+        .color-buttons { display: flex; gap: 10px; margin-bottom: 15px; }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-green { background-color: #27ae60; }
+        .btn-violet { background-color: #8e44ad; }
+        .btn-red { background-color: #c0392b; }
+        
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .num-btn {
+            padding: 12px 0;
+            border: 1px solid #ddd;
+            background: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result-box {
+            margin: 15px;
+            padding: 15px;
+            background: #e8f8f5;
+            border: 1px solid #a3e4d7;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Big Mumbai - WinGo</div>
+
+    <div class="wallet-card">
+        <h3>Wallet Balance</h3>
+        <p>₹<span id="balance">1000.00</span></p>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="selectMode(30, this)">WinGo 30Sec</button>
+        <button class="tab-btn" onclick="selectMode(60, this)">WinGo 1 Min</button>
+        <button class="tab-btn" onclick="selectMode(180, this)">WinGo 3 Min</button>
+        <button class="tab-btn" onclick="selectMode(300, this)">WinGo 5 Min</button>
+    </div>
+
+    <div class="timer-section">
+        <div>
+            <div style="font-size: 12px; color: #777;" id="mode-title">WinGo 30Sec</div>
+            <div style="font-weight: bold;">Time remaining</div>
+        </div>
+        <div class="timer-box" id="timer">00:30</div>
+    </div>
+
+    <div class="betting-section">
+        <div class="color-buttons">
+            <button class="btn btn-green" onclick="placeBet('Green', 2)">Green</button>
+            <button class="btn btn-violet" onclick="placeBet('Violet', 4.5)">Violet</button>
+            <button class="btn btn-red" onclick="placeBet('Red', 2)">Red</button>
+        </div>
+
+        <div class="number-grid">
+            <button class="num-btn" onclick="placeBet('Number 0', 9)">0</button>
+            <button class="num-btn" onclick="placeBet('Number 1', 9)">1</button>
+            <button class="num-btn" onclick="placeBet('Number 2', 9)">2</button>
+            <button class="num-btn" onclick="placeBet('Number 3', 9)">3</button>
+            <button class="num-btn" onclick="placeBet('Number 4', 9)">4</button>
+            <button class="num-btn" onclick="placeBet('Number 5', 9)">5</button>
+            <button class="num-btn" onclick="placeBet('Number 6', 9)">6</button>
+            <button class="num-btn" onclick="placeBet('Number 7', 9)">7</button>
+            <button class="num-btn" onclick="placeBet('Number 8', 9)">8</button>
+            <button class="num-btn" onclick="placeBet('Number 9', 9)">9</button>
+        </div>
+    </div>
+
+    <div class="result-box" id="result-text">
+        Option select karke bet lagayein! (Fixed Bet: ₹10)
+    </div>
+</div>
+
+<script>
+    let balance = 1000.00;
+    let selectedDuration = 30; // Default 30 Sec
+    let timeLeft = 30;
+    let currentBet = null;
+    const betAmount = 10;
+
+    function updateWallet() {
+        document.getElementById('balance').innerText = balance.toFixed(2);
+    }
+
+    function selectMode(seconds, btn) {
+        selectedDuration = seconds;
+        timeLeft = seconds;
+        
+        // Active tab highlight update
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Mode title update
+        let title = "WinGo " + (seconds < 60 ? seconds + "Sec" : (seconds/60) + " Min");
+        document.getElementById('mode-title').innerText = title;
+        
+        updateTimerDisplay();
+        currentBet = null;
+        document.getElementById('result-text').innerText = `${title} mode selected. Bet lagayein!`;
+    }
+
+    function placeBet(option, multiplier) {
+        if (balance < betAmount) {
+            alert("Wallet me balance kam hai!");
+            return;
+        }
+        balance -= betAmount;
+        updateWallet();
+        currentBet = { option, multiplier };
+        document.getElementById('result-text').innerText = `Aapne '${option}' par ₹10 ki bet lagai hai. Result ka wait karein...`;
+    }
+
+    function updateTimerDisplay() {
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        let formattedMins = mins < 10 ? '0' + mins : mins;
+        let formattedSecs = secs < 10 ? '0' + secs : secs;
+        document.getElementById('timer').innerText = `${formattedMins}:${formattedSecs}`;
+    }
+
+    // Main Timer Loop
+    setInterval(() => {
+        timeLeft--;
+        if (timeLeft < 0) {
+            timeLeft = selectedDuration;
+            
+            if (currentBet) {
+                let win = Math.random() < 0.4; // 40% win chance
+                if (win) {
+                    let winnings = betAmount * currentBet.multiplier;
+                    balance += winnings;
+                    document.getElementById('result-text').innerText = `Badhai ho! Aap jeet gaye +₹${winnings.toFixed(2)}`;
+                } else {
+                    document.getElementById('result-text').innerText = `Afsos! Aap haar gaye. (Selected: ${currentBet.option})`;
+                }
+                updateWallet();
+                currentBet = null;
+            } else {
+                document.getElementById('result-text').innerText = "Round finish! Koi bet nahi lagi thi.";
+            }
+        }
+        updateTimerDisplay();
+    }, 1000);
+</script>
+
+</body>
+</html>
